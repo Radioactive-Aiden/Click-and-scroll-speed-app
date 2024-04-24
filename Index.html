@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click and Scroll Speed Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: dodgerblue;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Click and Scroll Speed Test</h1>
+        <p>Click the button below as many times as you can in one second.</p>
+        <button class="btn" id="clickBtn">Click Me!</button>
+        <div class="result" id="clickResult"></div>
+        <hr>
+        <p>Scroll the page down as fast as you can within one second.</p>
+        <div class="result" id="scrollResult"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const clickBtn = document.getElementById("clickBtn");
+            const clickResult = document.getElementById("clickResult");
+            const scrollResult = document.getElementById("scrollResult");
+            let clickCount = 0;
+            let scrollSpeed = 0;
+            let startTime;
+
+            clickBtn.addEventListener("click", function() {
+                if (!startTime) {
+                    startTime = Date.now();
+                }
+                clickCount++;
+            });
+
+            setInterval(() => {
+                if (startTime) {
+                    const elapsedTime = (Date.now() - startTime) / 1000; // Convert to seconds
+                    const clicksPerSecond = clickCount / elapsedTime;
+                    clickResult.textContent = `Click Speed: ${clicksPerSecond.toFixed(2)} clicks/s`;
+                    clickCount = 0;
+                    startTime = null;
+                }
+            }, 1000);
+
+            window.addEventListener("scroll", function() {
+                if (!startTime) {
+                    startTime = Date.now();
+                }
+                scrollSpeed++;
+            });
+
+            setInterval(() => {
+                if (startTime) {
+                    const elapsedTime = (Date.now() - startTime) / 1000; // Convert to seconds
+                    const pixelsPerSecond = scrollSpeed / elapsedTime;
+                    scrollResult.textContent = `Scroll Speed: ${pixelsPerSecond.toFixed(2)} px/s`;
+                    scrollSpeed = 0;
+                    startTime = null;
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
